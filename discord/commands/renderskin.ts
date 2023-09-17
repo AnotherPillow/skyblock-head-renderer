@@ -63,6 +63,13 @@ export default {
                 })
                 .setDescription('An error occured processing that image, try again later or with another image.')
                 .setTimestamp()
+
+            responseMsg.edit({
+                content: '',
+                embeds: [ embed ]
+            })
+
+            return
         }
 
         
