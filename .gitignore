@@ -1,0 +1,6 @@
+node_modules/
+.env
+stands.json
+items.json
+skins
+test/
