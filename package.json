@@ -12,7 +12,8 @@
     },
     "scripts": {
         "mf": "node mineflayer-index.js",
-        "dc": "ts-node discord/index.ts"
+        "dc": "ts-node discord/index.ts",
+        "build": "tsc --allowSyntheticDefaultImports"
     },
     "devDependencies": {
         "@types/base64-stream": "^1.0.3",
