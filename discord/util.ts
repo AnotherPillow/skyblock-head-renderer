@@ -46,7 +46,7 @@ export class Bearer {
         this.email = env.ACCOUNT_EMAIL ?? ''
         this.password = env.ACCOUNT_PASSWORD ?? ''
 
-        this.refresh()
+        // this.refresh()
     }
 
     refresh() {
