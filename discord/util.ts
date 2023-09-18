@@ -32,6 +32,15 @@ export function parseAllStrings(obj: any): any {
     return obj;
 }
 
+function getPythonCommand() {
+    switch (process.platform) {
+        case 'win32':
+            return 'py'
+        default:
+            return 'python3'
+    }
+}
+
 export class Bearer {
     token: string | null = null
     email: string
@@ -51,8 +60,10 @@ export class Bearer {
 
     refresh() {
         return new Promise((resolve, reject) => {
-            exec(`py -c "import msmcauth; print(msmcauth.login('${this.email}', '${this.password}').access_token)"`,
+            exec(`${getPythonCommand()} -c "import msmcauth; print(msmcauth.login('${this.email}', '${this.password}').access_token)"`,
                 (error, stdout, stderr) => {
+                    if (stderr)
+                        console.log('Failed to grab bearer.' + stderr)
                     // console.log(`-->${stdout}<--`)
                     this.token = stdout
                     resolve(stdout)
