@@ -47,13 +47,15 @@ export default {
 
         // const b64 = fs.readFileSync(fp, 'base64')
 
+        if (!bearer.token) await bearer.refresh()
+
         let _bearer = await bearer.get()
 
         // let sk = await minecraftUploadSkin(_bearer ?? '', b64, fp, uuid)
         let skin = await minecraftUploadSkin(_bearer ?? '', attachment.url)
         // console.log(skin)
 
-        if (skin.error || !skin.textureKey || !skin.url) {
+        if (skin.error || !skin.textureKey || !skin.url || !_bearer) {
             const embed = new EmbedBuilder()
                 .setColor(0xFF5E83)
                 .setTitle(`Failed to render ${attachment.name}`)

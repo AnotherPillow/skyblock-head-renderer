@@ -49,29 +49,28 @@ export class Bearer {
         this.refresh()
     }
 
-    async refresh() {
-        const prom: Promise<string> = new Promise((resolve, reject) => {
+    refresh() {
+        return new Promise((resolve, reject) => {
             exec(`py -c "import msmcauth; print(msmcauth.login('${this.email}', '${this.password}').access_token)"`,
                 (error, stdout, stderr) => {
                     // console.log(`-->${stdout}<--`)
+                    this.token = stdout
                     resolve(stdout)
                 }
             )
         })
-        let res = await prom
-        this.token = res
-        // console.log(`==${this.token}==`)
-        return res
 
     }
 
-    async get() {
+    async get(override: boolean = true) {
         const now = new Date()
         
         //@ts-ignore
-        if (!((now - this.timecreated) > this.refreshTimeout)) {
+        if (!((now - this.timecreated) > this.refreshTimeout) || override) {
             await this.refresh()
         }
+
+        // console.log('==' + this.token)
 
         return this.token
     }
