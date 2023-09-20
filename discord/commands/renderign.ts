@@ -11,7 +11,7 @@ export default {
      */
     async execute(message: Message, args: string[], prefix: string) {
         if (args.length == 0) return message.reply(`Please provide an IGN to render!`)
-        if (!args[0].match(/[A-Za-z0-9_]{1,20}/)) return message.reply('Please provide a valid IGN to render.')
+        if (!args[0].match(/^[A-Za-z0-9_]{1,20}$/)) return message.reply('Please provide a valid IGN to render.')
         
         const ign = args[0]
         let responseMsg = await message.reply({ content: 'Rendering...' })
