@@ -16,7 +16,7 @@ export default {
         const ign = args[0]
         let responseMsg = await message.reply({ content: 'Rendering...' })
         
-        let url = `https://visage.surgeplay.com/head/512/${ign}.png?y=75&no=shadow`
+        let url = `https://skins.danielraybone.com/v1/render/head/${ign}?width=1024&height=1024`
 
         let uuid = (await fetch('https://api.mojang.com/users/profiles/minecraft/' + ign).then(x=>x.json())).id
         let skin = JSON.parse(
