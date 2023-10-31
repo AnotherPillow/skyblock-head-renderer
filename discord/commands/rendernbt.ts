@@ -49,8 +49,11 @@ export default {
 
         let responseMsg = await message.reply({ content: 'Rendering...' })
 
-        const name = data.display.Name.extra[0].text
-        const lore = data.display.Lore[0].extra[0].text
+        const _Name = data.display.Name
+        const name = _Name.extra ? _Name.extra[0].text : _Name.text
+        
+        const _Lore = data.display.Lore[0]
+        const lore = _Lore.extra ? _Lore.extra[0].text : _Lore.text
 
         const texture_url = data.SkullOwner.Properties.textures[0].textures.SKIN.url
         const texture_id = texture_url.match(/([a-z0-9]{48,72})/g)
