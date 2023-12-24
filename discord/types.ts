@@ -11,6 +11,16 @@ export type textObject = {
     text: string
 }
 
+export type flatTextObject = {
+    bold?: boolean,
+    italic?: boolean,
+    underlined?: boolean,
+    strikethrough?: boolean,
+    obfuscated?: boolean,
+    color?: string,
+    text: string
+}
+
 export type standDecoded = {
     SkullOwner: {
         Id: Number[]

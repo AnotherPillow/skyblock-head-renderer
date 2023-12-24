@@ -2,7 +2,7 @@ import type { Message } from "discord.js"
 import { EmbedBuilder } from "discord.js"
 
 import { parseAllStrings } from "../util"
-import type {textObject, standWithEncoded, standDecoded} from '../types'
+import type {textObject, standWithEncoded, standDecoded, flatTextObject} from '../types'
 
 export default {
     name: 'rendernbt',
@@ -23,11 +23,15 @@ export default {
             )
             .replace(/}"}}$/, '}}}')
             .replace(/"}}}$/, '}}')
+            .replace(/'}}}$/, '}}')
+            .replace(/("text"\s?\:\s?"[^"]{1,16})"([^"]{1,16}")/, "$1'$2")
+            .replace(/([a-z])'([,}\]])/, '$1"$2')
 
         const _data: standWithEncoded = await new Promise((resolve, reject) => {
             try {
                 resolve(parseAllStrings(JSON.parse(validjsonstring)))
             } catch (e: any) {
+                console.log(e, validjsonstring)
                 if (e.toString().match(/^SyntaxError: Unexpected token . in JSON at position/))
                     return message.reply(`Invalid input data! See ${prefix}help on how to get the correct data.`)
             }
@@ -50,10 +54,14 @@ export default {
         let responseMsg = await message.reply({ content: 'Rendering...' })
 
         const _Name = data.display.Name
-        const name = _Name.extra ? _Name.extra[0].text : _Name.text
+        const name = _Name.extra ? _Name.extra[0].text : 
+            (_Name as flatTextObject).constructor != Array ? _Name.text : 
+            (_Name as any as flatTextObject[])[0].text
         
         const _Lore = data.display.Lore[0]
-        const lore = _Lore.extra ? _Lore.extra[0].text : _Lore.text
+        const lore = _Lore.extra ? _Lore.extra[0].text : 
+            (_Lore).constructor != Array ? _Lore.text : 
+            (_Lore as any as flatTextObject[])[0].text
 
         const texture_url = data.SkullOwner.Properties.textures[0].textures.SKIN.url
         const texture_id = texture_url.match(/([a-z0-9]{48,72})/g)
@@ -61,8 +69,8 @@ export default {
 
         const embed = new EmbedBuilder()
             .setColor(0x75CEFF)
-            .setTitle('Render of ' + name)
-            .setDescription(lore)
+            .setTitle('Render of ' + name ?? '???')
+            .setDescription(lore ?? '???')
             .setAuthor({
                 name: message.author.displayName,
                 iconURL: message.author.displayAvatarURL() ?? 'https://discord.com/assets/c09a43a372ba81e3018c3151d4ed4773.png',
