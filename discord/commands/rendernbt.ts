@@ -26,6 +26,8 @@ export default {
             .replace(/'}}}$/, '}}')
             .replace(/("text"\s?\:\s?"[^"]{1,16})"([^"]{1,16}")/, "$1'$2")
             .replace(/([a-z])'([,}\]])/, '$1"$2')
+            .replace(/\\'/g, "'")
+            
 
         const _data: standWithEncoded = await new Promise((resolve, reject) => {
             try {
