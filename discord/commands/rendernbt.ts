@@ -68,11 +68,11 @@ export default {
 
         const texture_url = data.SkullOwner.Properties.textures[0].textures.SKIN.url
         const texture_id = texture_url.match(/([a-z0-9]{48,72})/g)
-        let url = `https://visage.surgeplay.com/head/512/${texture_id}.png?y=75&no=shadow`
+        let url = `https://nmsr.nickac.dev/headiso/${texture_id}?no=shadow`
 
         const embed = new EmbedBuilder()
             .setColor(0x75CEFF)
-            .setTitle('Render of ' + name ?? '???')
+            .setTitle('Render of ' + (name ?? '???'))
             .setDescription(lore ?? '???')
             .setAuthor({
                 name: message.author.displayName,
